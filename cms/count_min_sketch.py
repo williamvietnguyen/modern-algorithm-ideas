@@ -19,7 +19,7 @@ class CountMinSketch:
 
     def __init__(self, hashes=5, buckets=256, seed = 1, is_conservative = False):
         """
-        Constructor for CMS
+        Constructor for CMS.
         - self.table: the table of counts, dimensions: self.hashes by self.buckets
         - self.hashes: the number of hash functions
         - self.buckets: the number of buckets
