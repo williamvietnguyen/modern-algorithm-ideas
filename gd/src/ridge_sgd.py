@@ -3,7 +3,7 @@
 
 import numpy as np
 
-class StochasticGradientDescent:
+class RidgeSGD:
     """
     Stochastic gradient descent (SGD) is a first-order iterative optimization algorithm for
     finding local minimum of a differentiable or suitably smooth function. 
@@ -17,7 +17,7 @@ class StochasticGradientDescent:
 
     def __init__(self, reg_lambda = 1e-6):
         """
-        Constructor for gradient descent.
+        Constructor for stochastic gradient descent.
         - self.reg_lambda: The regularization parameter
         - self.w = the weights, shape: (d, 1)
         - self.b = The bias/intercept/offset

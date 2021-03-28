@@ -3,7 +3,7 @@
 
 import numpy as np
 
-class GradientDescent:
+class RidgeGD:
     """
     Gradient descent is a first-order iterative optimization algorithm for
     finding local minimum of a differentiable function. The idea is to take
@@ -65,7 +65,7 @@ class GradientDescent:
         cur_mse = self.mse(X, y)
         itr = 0
         # iterate until convergence
-        while np.abs(cur_mse - prev_mse) > tolerance or itr < max_itr:
+        while np.abs(cur_mse - prev_mse) > tolerance and itr < max_itr:
             grad_w, grad_b = self.compute_gradients(X, y)
             self.w = self.w - step_size * grad_w
             self.b = self.b - step_size * grad_b

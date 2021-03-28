@@ -3,14 +3,14 @@
 
 import numpy as np
 import src.closed_form as cf
-import src.gradient_descent as gd
-import src.stochastic_gradient_descent as sgd
+import src.ridge_gd as gd
+import src.ridge_sgd as sgd
 
 def sse(y1, y2):
     return np.sum((y1 - y2)**2)
 
 def test_sgd(X_train, y_train, X_test, y_test):
-    stochastic_gradient_descent = sgd.StochasticGradientDescent()
+    stochastic_gradient_descent = sgd.RidgeSGD()
     stochastic_gradient_descent.train(X_train, y_train)
     y_prediction = stochastic_gradient_descent.predict(X_test)
     print('\n')
@@ -18,7 +18,7 @@ def test_sgd(X_train, y_train, X_test, y_test):
     print("Sample test predictions: ", y_prediction[0], y_prediction[1], y_prediction[2], y_prediction[-1])
 
 def test_gd(X_train, y_train, X_test, y_test):
-    gradient_descent = gd.GradientDescent()
+    gradient_descent = gd.RidgeGD()
     gradient_descent.train(X_train, y_train)
     y_prediction = gradient_descent.predict(X_test)
     print('\n')
@@ -36,14 +36,15 @@ def test_lls_closed(X_train, y_train, X_test, y_test):
 if __name__ == '__main__':
     n = 1200
     d = 120
+    rng = np.random.default_rng()
     # true w
-    w_true = np.random.normal(0, 1, size=(d, 1))
+    w_true = rng.normal(0, 1, size=(d, 1))
     # training data
-    X_train = np.random.normal(0, 1, size=(n, d))
-    y_train = np.random.normal(0, 0.55, size=(n, 1)) + X_train.dot(w_true)
+    X_train = rng.normal(0, 1, size=(n, d))
+    y_train = rng.normal(0, 0.55, size=(n, 1)) + X_train.dot(w_true)
     # test data
-    X_test = np.random.normal(0, 1, size=(n, d))
-    y_test = np.random.normal(0, 0.55, size=(n, 1)) + X_test.dot(w_true)
+    X_test = rng.normal(0, 1, size=(n, d))
+    y_test = rng.normal(0, 0.55, size=(n, 1)) + X_test.dot(w_true)
 
     print('\nSample test values: ', y_test[0], y_test[1], y_test[2], y_test[-1])
 
