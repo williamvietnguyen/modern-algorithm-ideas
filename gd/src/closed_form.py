@@ -22,8 +22,8 @@ class LinearLeastSquaresClosedForm:
     def fit(self, X, y):
         """
         Fits the model to the training data provided.
-        :param X: input data
-        :param y: output data
+        :param X: input data, shape: (n, d)
+        :param y: output data, shape: (n, 1)
         """
         # append the ones column for bias/intercept term
         X_ = np.c_[np.ones((X.shape[0], 1)), X]
@@ -36,7 +36,7 @@ class LinearLeastSquaresClosedForm:
     def predict(self, X):
         """
         Returns prediction output for X.
-        :param X: input data
+        :param X: input data, shape: (n, d)
         :return: prediction output for X
         """
         X_ = np.c_[np.ones((X.shape[0], 1)), X]
