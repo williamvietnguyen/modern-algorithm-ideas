@@ -2,9 +2,9 @@
 # email: williamvnguyen2@gmail.com
 
 import numpy as np
-import closed_form as cf
-import gradient_descent as gd
-import stochastic_gradient_descent as sgd
+import src.closed_form as cf
+import src.gradient_descent as gd
+import src.stochastic_gradient_descent as sgd
 
 def sse(y1, y2):
     return np.sum((y1 - y2)**2)

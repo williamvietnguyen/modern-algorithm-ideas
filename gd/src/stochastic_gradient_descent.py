@@ -5,7 +5,7 @@ import numpy as np
 
 class StochasticGradientDescent:
     """
-    Stochastic gradient descent is a first-order iterative optimization algorithm for
+    Stochastic gradient descent (SGD) is a first-order iterative optimization algorithm for
     finding local minimum of a differentiable or suitably smooth function. 
     The idea is the same as gradient descent, except we compute gradients on random 
     subsets of the data each iteration. This tends to be faster in high-dimensional

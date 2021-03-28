@@ -1,7 +1,7 @@
 # William Nguyen
 # email: williamvnguyen2@gmail.com
 
-import count_min_sketch as cms
+import src.count_min_sketch as cms
 import numpy as np
 
 if __name__ == '__main__':
