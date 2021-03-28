@@ -3,22 +3,23 @@
 
 import numpy as np
 
-class RidgeGD:
+class StochasticGradientRidge:
     """
-    Gradient descent is a first-order iterative optimization algorithm for
-    finding local minimum of a differentiable function. The idea is to take
-    repeated steps in the opposite direction of the gradient at the current
-    point, as this is the direction of steepest descent. Here we use mean
-    squared error for objective to minimize, and L2 norm for regularization.
+    Stochastic gradient descent (SGD) is a first-order iterative optimization algorithm for
+    finding local minimum of a differentiable or suitably smooth function. 
+    The idea is the same as gradient descent, except we compute gradients on random 
+    subsets of the data each iteration. This tends to be faster in high-dimensional
+    optimization problems where the computational burden is high. Here we use L2
+    norm for regularlization and mean squared error for the objective function.
     - train(X, y, step_size, tolerance, max_itr): trains our model with X and y
     - predict(X): predicts output for X
     """
 
     def __init__(self, reg_lambda = 1e-6):
         """
-        Constructor for gradient descent.
+        Constructor for stochastic gradient descent for ridge.
         - self.reg_lambda: The regularization parameter
-        - self.w = The weights, shape: (d, 1)
+        - self.w = the weights, shape: (d, 1)
         - self.b = The bias/intercept/offset
         """
         self.reg_lambda = reg_lambda
@@ -49,24 +50,28 @@ class RidgeGD:
         grad_b = (2/n) * np.sum(y_prediction - y)
         return grad_w, grad_b
 
-    def train(self, X, y, step_size = 1e-4, tolerance=1e-6, max_itr = 10000):
+    def train(self, X, y, step_size = 1e-4, tolerance=1e-6, max_itr=100000, batch_size=100):
         """
-        Trains the model by performing gradient descent.
+        Trains the model by performing stochastic gradient descent.
         :param X: input data, shape: (n, d)
         :param y: output data, shape: (n, 1)
         :param step_size: learning rate
         :param tolerance: the margin in which we considered convergence
         :param max_itr: maximum iterations
+        :param batch_size: size of each batch to compute gradient on
         """
-        d = X.shape[1]
+        n, d = X.shape
         self.w = np.random.normal(0, 1, size=(d, 1))
-        self.b = 0
+        self.b = 0 # bias term
         prev_mse = float('inf')
         cur_mse = self.mse(X, y)
+        rng = np.random.default_rng()
         itr = 0
         # iterate until convergence
         while np.abs(cur_mse - prev_mse) > tolerance and itr < max_itr:
-            grad_w, grad_b = self.compute_gradients(X, y)
+            # note that rng.choice on a=n, samples from np.arange(n)
+            indices = rng.choice(a=n, size=batch_size, replace=False)
+            grad_w, grad_b = self.compute_gradients(X[indices], y[indices])
             self.w = self.w - step_size * grad_w
             self.b = self.b - step_size * grad_b
             prev_mse = cur_mse
