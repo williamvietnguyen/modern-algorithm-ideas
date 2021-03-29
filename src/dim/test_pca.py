@@ -38,7 +38,7 @@ def population_to_indices(information):
     return population_indices
 
 if __name__ == '__main__':
-    data = np.genfromtxt('data/pca-data.txt', dtype=str, delimiter=' ')
+    data = np.genfromtxt('data/genome-data.txt', dtype=str, delimiter=' ')
     information, data = data[:, :3], data[:, 3:]
     X = build_data(data)
     population_indices = population_to_indices(information)
