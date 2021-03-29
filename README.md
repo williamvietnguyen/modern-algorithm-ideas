@@ -1,4 +1,4 @@
-# Modern Algorithm Ideas
+# Algorithms
 
 Just some well-known algorithm ideas and my implementations of them.
 
