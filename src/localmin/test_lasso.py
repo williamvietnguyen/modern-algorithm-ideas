@@ -2,7 +2,7 @@
 # email: williamvnguyen2@gmail.com
 
 import numpy as np
-import src.coord_lasso as cl
+from lasso import CoordinateLasso
 
 def sse(y1, y2):
     return np.sum((y1 - y2)**2)
@@ -11,7 +11,7 @@ def test_lasso(X_train, y_train, X_test, y_test):
     ratio = 1.5
     reg_lambda = 2 * np.max(X_train.T.dot(np.abs((y_train - np.mean(y_train)))))
     for i in range(20):
-        lasso = cl.CoordinateLasso(reg_lambda = reg_lambda)
+        lasso = CoordinateLasso(reg_lambda = reg_lambda)
         lasso.train(X_train, y_train)
         w = lasso.get_weights()
         y_prediction = lasso.predict(X_test)

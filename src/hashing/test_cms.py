@@ -1,13 +1,13 @@
 # William Nguyen
 # email: williamvnguyen2@gmail.com
 
-import src.count_min_sketch as cms
+from cms import CountMinSketch
 import numpy as np
 
 if __name__ == '__main__':
     d = {} # true frequencies
-    reg_cms = cms.CountMinSketch()
-    conserv_cms = cms.CountMinSketch(is_conservative=True)
+    reg_cms = CountMinSketch()
+    conserv_cms = CountMinSketch(is_conservative=True)
     u = 1000 # highest value in our universe for data stream
     max_freq = 100
     rng = np.random.default_rng()

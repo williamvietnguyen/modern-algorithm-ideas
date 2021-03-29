@@ -79,6 +79,3 @@ class CountMinSketch:
         Resets the CMS to default state.
         """
         self.table = np.zeros((self.hashes, self.buckets))
-
-
-    

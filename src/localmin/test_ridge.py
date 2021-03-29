@@ -2,15 +2,15 @@
 # email: williamvnguyen2@gmail.com
 
 import numpy as np
-import src.closed_form as cf
-import src.gd_ridge as gd
-import src.sgd_ridge as sgd
+from ridge import LinearLeastSquaresClosedForm
+from ridge import StochasticGradientRidge
+from ridge import GradientDescentRidge
 
 def sse(y1, y2):
     return np.sum((y1 - y2)**2)
 
 def test_sgd(X_train, y_train, X_test, y_test):
-    stochastic_gradient_descent = sgd.StochasticGradientRidge()
+    stochastic_gradient_descent = StochasticGradientRidge()
     stochastic_gradient_descent.train(X_train, y_train)
     y_prediction = stochastic_gradient_descent.predict(X_test)
     print('\n')
@@ -18,7 +18,7 @@ def test_sgd(X_train, y_train, X_test, y_test):
     print("Sample test predictions: ", y_prediction[0], y_prediction[1], y_prediction[2], y_prediction[-1])
 
 def test_gd(X_train, y_train, X_test, y_test):
-    gradient_descent = gd.GradientDescentRidge()
+    gradient_descent = GradientDescentRidge()
     gradient_descent.train(X_train, y_train)
     y_prediction = gradient_descent.predict(X_test)
     print('\n')
@@ -26,7 +26,7 @@ def test_gd(X_train, y_train, X_test, y_test):
     print("Sample test predictions: ", y_prediction[0], y_prediction[1], y_prediction[2], y_prediction[-1])
 
 def test_lls_closed(X_train, y_train, X_test, y_test):
-    closed_form = cf.LinearLeastSquaresClosedForm()
+    closed_form = LinearLeastSquaresClosedForm()
     closed_form.fit(X_train, y_train)
     y_prediction = closed_form.predict(X_test)
     print('\n')
