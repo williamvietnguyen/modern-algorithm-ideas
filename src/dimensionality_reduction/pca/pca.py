@@ -90,27 +90,18 @@ class PCA:
         :return: a matrix, shape: (n, target_d)
         """
         X_transformed = None
-        self.mean = np.mean(X, axis=0)
-        X_demean = X - self.mean
         if self.svd: # svd is much faster
-            # computing our singular value decomposition
-            self.U, self.S, self.Vh = np.linalg.svd(X_demean, full_matrices=True)
+            self.fit(X)
             # sort the indices by the descending order of the singular values
             idx = self.S.argsort()[::-1][:target_d]
-            # Notice! This is a different approach than svd in transform function.
+            # Notice that this is not necessarily redundant code! 
+            # This is a different approach than svd in the transform function!
             S_ = np.diag(self.S[idx])[:target_d,:target_d]
             U_ = self.U[:,idx]
             X_transformed = U_.dot(S_)
         else: # terribly slow approach
-            # compute covariance matrix
-            self.covariance = np.cov(X_demean.T)
-            # compute eigenvectors and eigenvalues of covariance
-            self.eigenvalues, self.eigenvectors = np.linalg.eig(self.covariance)
-            idx = self.eigenvalues.argsort()[::-1]
-            self.eigenvalues = self.eigenvalues[idx]
-            self.eigenvectors = self.eigenvectors[:,idx]
-            # projection
-            X_transformed = X_demean.dot(self.eigenvectors[:,:target_d])
+            self.fit(X)
+            X_transformed = self.transform(X, target_d)
         return X_transformed
 
         
