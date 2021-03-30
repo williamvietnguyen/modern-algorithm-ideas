@@ -43,8 +43,7 @@ if __name__ == '__main__':
     X = build_data(data)
     population_indices = population_to_indices(information)
     model = PCA()
-    model.fit(X)
-    X_transformed = model.transform(X, 2)
+    X_transformed = model.fit_transform(X, 2)
 
     # Plot the data for each population
     plt.figure(figsize=(10,7))

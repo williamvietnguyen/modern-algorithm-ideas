@@ -36,6 +36,7 @@ class PCA:
         self.S = None
         self.U = None
 
+
     def fit(self, X):
         """
         Fits the model to X by computing the
@@ -71,12 +72,40 @@ class PCA:
             idx = self.S.argsort()[::-1][:target_d]
             # sort the rows of Vh, then project X onto Vh.T
             X_transformed = X_demean.dot(self.Vh[idx].T)
-            # NOTE: The following is another way of computing PCA!
-            # S = np.diag(self.S[idx])[:target_d,:target_d]
-            # U = self.U[:,idx]
-            # return U.dot(S)
         else:
             # sort eigenvectors by their eigenvalues in descending order for pc's
+            idx = self.eigenvalues.argsort()[::-1]
+            self.eigenvalues = self.eigenvalues[idx]
+            self.eigenvectors = self.eigenvectors[:,idx]
+            # projection
+            X_transformed = X_demean.dot(self.eigenvectors[:,:target_d])
+        return X_transformed
+    
+
+    def fit_transform(self, X, target_d):
+        """
+        Performs fit and transform in one routine.
+        :param X: the data matrix, shape: (n, d)
+        :param target_d: the lower dimension in which we reduce to
+        :return: a matrix, shape: (n, target_d)
+        """
+        X_transformed = None
+        self.mean = np.mean(X, axis=0)
+        X_demean = X - self.mean
+        if self.svd: # svd is much faster
+            # computing our singular value decomposition
+            self.U, self.S, self.Vh = np.linalg.svd(X_demean, full_matrices=True)
+            # sort the indices by the descending order of the singular values
+            idx = self.S.argsort()[::-1][:target_d]
+            # Notice! This is a different approach than svd in transform function.
+            S_ = np.diag(self.S[idx])[:target_d,:target_d]
+            U_ = self.U[:,idx]
+            X_transformed = U_.dot(S_)
+        else: # terribly slow approach
+            # compute covariance matrix
+            self.covariance = np.cov(X_demean.T)
+            # compute eigenvectors and eigenvalues of covariance
+            self.eigenvalues, self.eigenvectors = np.linalg.eig(self.covariance)
             idx = self.eigenvalues.argsort()[::-1]
             self.eigenvalues = self.eigenvalues[idx]
             self.eigenvectors = self.eigenvectors[:,idx]
