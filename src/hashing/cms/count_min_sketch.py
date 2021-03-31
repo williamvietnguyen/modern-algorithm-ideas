@@ -17,22 +17,22 @@ class CountMinSketch:
     - clear(): clears the CMS
     """
 
-    def __init__(self, hashes=5, buckets=256, seed = 1, is_conservative = False):
+    def __init__(self, hashes=5, buckets=256, seed = 1, is_conservative = True):
         """
         Constructor for CMS.
-        - self.table: the table of counts, dimensions: self.hashes by self.buckets
-        - self.hashes: the number of hash functions
-        - self.buckets: the number of buckets
-        - self.seed: a seed for our hash function
-        - self.md5: md5 hash function
-        - self.is_conservative: whether to use conservative increment
+        :param hashes: the number of hash functions
+        :param buckets: the number of buckets
+        :param seed: a seed for our hash function
+        :param is_conservative: whether to use conservative increment
         """
         self.buckets = buckets
         self.hashes = hashes
-        self.table = np.zeros((self.hashes, self.buckets))
         self.seed = seed
-        self.md5 = hashlib.md5
         self.is_conservative = is_conservative
+        # the table of counts, dimensions: self.hashes by self.buckets
+        self.table = np.zeros((self.hashes, self.buckets))
+        # md5 hash function
+        self.md5 = hashlib.md5
 
     def hash(self, x, i):
         """

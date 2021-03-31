@@ -3,31 +3,27 @@
 
 import numpy as np
 
-class CoordinateLasso:
+class LassoRegression:
     """
-    Coordinate descent for Lasso solves the Lasso regression problem
-    of finding a linear model to predict, in which we shrink the variables
-    and encourage weights to trend towards 0 using the L1 norm. Coordinate
-    descent optimizes each coordinate one at a time.
-    - train(X, y, tolerance, max_itr): trains the model with given data
+    Lasso regression model, intended to estimate sparse models
+    by driving feature coefficients to 0. 
+    Uses coordinate descent to fit the data.
+    - fit(X, y, tolerance, max_itr): trains the model with given data
     - predict(X): predicts output for X
-    - get_weights(): returns copy of weights
     """
 
     def __init__(self, reg_lambda=1e-6):
         """
         Constructor for coordinate descent for lasso.
-        - self.reg_lambda: The regularization parameter
-        - self.w = the weights, shape: (d, 1)
-        - self.b = The bias/intercept/offset
+        :param reg_lambda: regularization parameter
         """
         self.reg_lambda = reg_lambda
-        self.w = None
-        self.b = None
+        self.w = None # weights
+        self.b = None # bias/intercept/offset
     
-    def train(self, X, y, tolerance=1e-4, max_itr=10000):
+    def fit(self, X, y, tolerance=1e-4, max_itr=10000):
         """
-        Trains the model by performing coordinate descent for lasso.
+        Fits the model by performing coordinate descent for lasso.
         :param X: input data, shape: (n, d)
         :param y: output data, shape: (n, 1)
         :param tolerance: the margin in which we considered convergence
@@ -63,18 +59,8 @@ class CoordinateLasso:
     
     def predict(self, X):
         """
-        Predicts the output for X. Note we
-        must run self.train before predicting.
+        Predicts the output for X. 
         :param X: input data, shape: (n, d)
-        :return: prediction output for X, or None if not trained yet
+        :return: prediction output for X
         """
-        if self.w is None or self.b is None:
-            return None
         return X.dot(self.w) + self.b
-
-    def get_weights(self):
-        """
-        Returns a copy of the weights
-        :return: copy of the weights
-        """
-        return np.copy(self.w)

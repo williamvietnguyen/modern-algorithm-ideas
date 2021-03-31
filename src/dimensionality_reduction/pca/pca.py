@@ -13,28 +13,22 @@ class PCA:
     the variance as possible.
     - fit(X): fits the model on the data matrix X
     - transform(X, target_d): transforms X to lower dimension target_d
+    - fit_transform(X, target_d): Performs fit and transform
     """
     
     def __init__(self, svd=True):
         """
         Constructor for Principal Component Analysis.
-        - self.covariance: covariance matrix of data fitted, (d, d)
-        - self.eigenvectors: eigenvectors of the covariance matrix
-        - self.eigenvalues: eigenvalues of the covariance matrix
-        - self.mean: mean of data fitted, shape: (d,)
-        - self.svd: whether to use singular value decomposition to compute PCA
-        - self.U: unitary matrix from svd, shape: (n, n)
-        - self.S: rectangular diagonal matrix from svd, shape: (d,)
-        - self.Vh: unitary matrix from svd that is transposed, shape: (d, d)
+        :param svd: whether to use SVD to compute PCA or not
         """
-        self.covariance = None
-        self.eigenvectors = None
-        self.eigenvalues = None
-        self.mean = 0
         self.svd = svd
-        self.Vh = None
-        self.S = None
-        self.U = None
+        self.covariance = None # covariance matrix of data fitted, (d, d)
+        self.eigenvectors = None # eigenvectors of the covariance matrix
+        self.eigenvalues = None # eigenvalues of the covariance matrix
+        self.mean = 0 # mean of data fitted, shape: (d,)
+        self.Vh = None # unitary matrix from svd that is transposed, shape: (d, d)
+        self.S = None # rectangular diagonal matrix from svd, shape: (d,)
+        self.U = None # unitary matrix from svd, shape: (n, n)
 
 
     def fit(self, X):

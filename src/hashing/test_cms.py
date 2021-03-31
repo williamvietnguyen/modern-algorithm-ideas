@@ -6,7 +6,7 @@ import numpy as np
 
 if __name__ == '__main__':
     d = {} # true frequencies
-    reg_cms = CountMinSketch()
+    reg_cms = CountMinSketch(is_conservative=False)
     conserv_cms = CountMinSketch(is_conservative=True)
     u = 1000 # highest value in our universe for data stream
     max_freq = 100
